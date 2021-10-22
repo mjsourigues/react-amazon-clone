@@ -1,21 +1,38 @@
 import React, { useState } from 'react';
 import "./Login.css";
-import {Link} from "react-router-dom";
+import {Link,useHistory} from "react-router-dom";
+import {auth} from "./firebase";
 
 
 function Login() {
+    const history =useHistory();
     const [email, setEmail] = useState();
-    const [pasword, setPasword] = useState();
-    //IINICIO DE SESION EN FIREBASE
+    const [password, setPasword] = useState();
+    //INICIO DE SESION EN FIREBASE
     const singIn=e=>{
         e.preventDefault();
-        //VER LOGIN FIREBASE
+        
+        auth
+            .signInWithEmailAndPassword(email,password)
+            .then(auth=>{
+                history.push("/");
+            })
+            .catch(error=>alert(error.message));
     }
 
     //REGISTRAR USR EN FIREBASE
     const register=e=>{
         e.preventDefault();
-        //VER REGISTRAR USR EN FIREBASE
+        auth
+            .createUserWithEmailAndPassword(email,password)
+            .then((auth)=>{
+                //Creacion exitosa de nuevo usuario
+                console.log(auth);
+                if(auth){
+                    history.push("/")
+                }
+            })
+            .catch(error=>alert(error.message))
     }
 
     return (
@@ -30,7 +47,7 @@ function Login() {
                     <input type="text" value={email} onChange={e=>setEmail(e.target.value)}/>
 
                     <h5>Contraseña</h5>
-                    <input type="password" value={pasword} onChange={e=>setPasword(e.target.value)}/>
+                    <input type="password" value={password} onChange={e=>setPasword(e.target.value)}/>
 
                     <button type="submit" onClick={singIn} className="login__singInButton">Acceder</button>
                 </form>
