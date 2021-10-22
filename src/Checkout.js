@@ -5,13 +5,16 @@ import { useStateValue } from './StateProvider';
 import Subtotal from "./Subtotal";
 
 function Checkout() {
-    const [{basket},dispatch] = useStateValue();
+    const [{basket, user}, dispatch] = useStateValue();
+
+
     return (
         <div className="checkout">
            <div className="checkout__left">
                 <img className="checkout__add" src="https://cap.org.ar/wp-content/uploads/2018/08/Copate_Asociate2018-324x160.jpg" alt="publicidad"></img>
 
                 <div>
+                    <h3>Hola {user.email}</h3>
                     <h2 className="checkout__title">
                         Tu carrito de compras
                     </h2>
