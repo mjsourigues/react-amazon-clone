@@ -1,6 +1,6 @@
 # Getting Started with Create React App
 
-Este proyeto fue creado con React [Create React App](https://github.com/facebook/create-react-app).
+Este proyecto fue creado con React [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
