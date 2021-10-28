@@ -5,21 +5,34 @@ const { request, response } = require("express");
 // eslint-disable-next-line max-len
 const stripe = require("stripe")("sk_test_51JnmBDCRgIFNDnmKGcMBbsuy7edjfh7h8FpKSA8qAo6DqV3h8SavJwwEijaDIcF315ePn18xj00IzAOPTSQgwEeZ00bcbVY8rP");
 
-// API
-
 // APP CONFIG
-const app=express();
+const app = express();
 
 // MIDDLEWARES
 app.use(cors({origin: true}));
 app.use(express.json());
 
+// ROUTES API
+app.get("/", (request, response) => response.status(200).send("PRUEBA CORRECTA 200"));
 
-// API ROUTES
-app.get("/", (request, response) => response.status(200).send("FUNCIONANDO"));
+eslint-disable-next-line 
+app.post("/payments/create", async (request, response) => {
+  const total = request.query.total;
 
+  console.log("PAGO RECIBIDO POR:", total);
 
-// LISTEN COMMAND
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: total, // Subunidades de moneda
+    currency: "usd",
+  });
+
+  // Creado Correctamente
+  response.status(201).send({
+    clientSecret: paymentIntent.client_secret,
+  });
+});
+
+// LISTENER
 exports.api = functions.https.onRequest(app);
 
 
